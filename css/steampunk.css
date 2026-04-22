@@ -1,0 +1,533 @@
+/* Reset y variables */
+:root {
+    --bg-primary: #2A2418;
+    --bg-secondary: #3E2E1F;
+    --bg-card: #4A3825;
+    --border-brass: #C49A6C;
+    --border-copper: #B87333;
+    --text-primary: #E6D5B8;
+    --text-secondary: #C9B896;
+    --gold-accent: #D4AF37;
+    --copper-accent: #B87333;
+    --shadow-dark: rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Special Elite', monospace;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.loading-overlay.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gear-loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.gear {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid var(--border-copper);
+}
+
+.gear.large {
+    width: 60px;
+    height: 60px;
+    top: 20px;
+    left: 20px;
+    animation: spin 3s linear infinite;
+}
+
+.gear.small {
+    width: 40px;
+    height: 40px;
+    top: 30px;
+    left: 30px;
+    animation: spin 2s linear infinite reverse;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* App container */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: radial-gradient(circle at 10% 20%, rgba(201, 184, 150, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+/* Header steampunk */
+.steampunk-header {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 3px solid var(--border-brass);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.gear-icon {
+    width: 40px;
+    height: 40px;
+    background: repeating-radial-gradient(circle at 30% 30%, var(--copper-accent) 1px, var(--border-copper) 3px, transparent 4px);
+    border-radius: 50%;
+    border: 2px solid var(--gold-accent);
+    animation: spin 10s linear infinite;
+}
+
+.gear-icon.small {
+    width: 30px;
+    height: 30px;
+    animation-duration: 7s;
+    animation-direction: reverse;
+}
+
+.app-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.8rem;
+    color: var(--gold-accent);
+    text-shadow: 2px 2px 4px var(--shadow-dark);
+    letter-spacing: 3px;
+}
+
+.time-compass {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Navegación con remaches */
+.steampunk-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-brass);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--gold-accent);
+    border-radius: 50%;
+}
+
+.nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--gold-accent);
+    border-radius: 50%;
+}
+
+.nav-btn:hover {
+    background: var(--bg-card);
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
+.nav-btn.active {
+    background: var(--copper-accent);
+    border-color: var(--gold-accent);
+    color: var(--bg-primary);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Caldera de progreso */
+.boiler-container {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-copper);
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+.boiler-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+}
+
+.boiler-bar {
+    background: #1A150E;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--border-brass);
+}
+
+.boiler-fill {
+    background: linear-gradient(90deg, var(--copper-accent), var(--gold-accent));
+    height: 100%;
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.steam-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+    animation: steam 1s linear infinite;
+}
+
+@keyframes steam {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* Main content y views */
+.main-content {
+    min-height: 400px;
+}
+
+.view {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tarjetas y elementos */
+.welcome-card, .stat-card, .note-card, .task-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-brass);
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    box-shadow: 5px 5px 10px var(--shadow-dark);
+}
+
+.card-title, .view-title, .section-title {
+    font-family: 'Cinzel Decorative', cursive;
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-info {
+    text-align: right;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-family: 'Orbitron', monospace;
+    color: var(--gold-accent);
+}
+
+/* Botones steampunk */
+.steampunk-btn {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-copper);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    font-family: 'Special Elite', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.steampunk-btn:hover {
+    background: var(--copper-accent);
+    border-color: var(--gold-accent);
+    transform: scale(1.05);
+}
+
+.steampunk-btn.primary {
+    background: var(--copper-accent);
+    color: var(--bg-primary);
+}
+
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Notas y tareas */
+.notes-container, .tasks-container {
+    display: grid;
+    gap: 15px;
+}
+
+.note-card, .task-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.note-card:hover, .task-card:hover {
+    border-color: var(--gold-accent);
+    transform: translateX(5px);
+}
+
+.note-title, .task-title {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.note-date {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-family: 'Orbitron', monospace;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--border-copper);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.delete-btn:hover {
+    color: #ff4444;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.steampunk-modal {
+    background: var(--bg-secondary);
+    border: 3px solid var(--gold-accent);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    padding: 15px;
+    border-bottom: 2px solid var(--border-brass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--gold-accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px;
+    border-top: 2px solid var(--border-brass);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.steampunk-input, .steampunk-textarea, .steampunk-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-copper);
+    color: var(--text-primary);
+    font-family: 'Special Elite', monospace;
+}
+
+.steampunk-textarea {
+    resize: vertical;
+}
+
+/* Footer */
+.steampunk-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border-brass);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-dot.online {
+    background: #00ff00;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+.status-dot.offline {
+    background: #ff4444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+    
+    .app-title {
+        font-size: 1.2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-btn span:last-child {
+        display: none;
+    }
+    
+    .nav-btn {
+        padding: 10px;
+    }
+    
+    .nav-icon {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Scrollbar steampunk */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-copper);
+    border-radius: 5px;
+}
