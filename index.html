@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2A2418">
+    <meta name="description" content="Diario de Inventor Steampunk - Planifica tus inventos con estilo victoriano">
+    
+    <!-- Título -->
+    <title>Diario de Vapor | Inventor Steampunk</title>
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Iconos para diferentes dispositivos -->
+    <link rel="icon" type="image/png" href="icons/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="icons/icon-152.png">
+    
+    <!-- Google Fonts estilo steampunk -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Special+Elite&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="css/steampunk.css">
+</head>
+<body>
+    <!-- Overlay de carga steampunk -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="gear-loader">
+                <div class="gear large"></div>
+                <div class="gear small"></div>
+            </div>
+            <p class="loading-text">Calentando calderas...</p>
+        </div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="app-container">
+        <!-- Header con brújula de tiempo -->
+        <header class="steampunk-header">
+            <div class="logo-container">
+                <div class="gear-icon"></div>
+                <h1 class="app-title">DIARIO DE VAPOR</h1>
+                <div class="gear-icon small"></div>
+            </div>
+            <div class="time-compass">
+                <span id="current-date" class="date-text"></span>
+                <span id="current-time" class="time-text"></span>
+            </div>
+        </header>
+
+        <!-- Navegación con remaches -->
+        <nav class="steampunk-nav">
+            <button class="nav-btn active" data-view="dashboard">
+                <span class="nav-icon">📓</span>
+                <span>Bitácora</span>
+            </button>
+            <button class="nav-btn" data-view="notes">
+                <span class="nav-icon">⚙️</span>
+                <span>Notas</span>
+            </button>
+            <button class="nav-btn" data-view="tasks">
+                <span class="nav-icon">🔧</span>
+                <span>Tareas</span>
+            </button>
+            <button class="nav-btn" data-view="inventory">
+                <span class="nav-icon">💨</span>
+                <span>Inventario</span>
+            </button>
+        </nav>
+
+        <!-- Caldera de progreso -->
+        <div class="boiler-container">
+            <div class="boiler-label">
+                <span>PRESIÓN DE LA CALDERA</span>
+                <span id="pressure-value" class="pressure-value">0%</span>
+            </div>
+            <div class="boiler-bar">
+                <div id="boiler-fill" class="boiler-fill" style="width: 0%">
+                    <div class="steam-particles"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal (cambia según la vista) -->
+        <main id="main-content" class="main-content">
+            <!-- Dashboard view (inicial) -->
+            <div id="dashboard-view" class="view active">
+                <div class="welcome-card">
+                    <h2 class="card-title">Bienvenido, Inventor</h2>
+                    <p class="card-text">Tu diario de bitácora te espera. Registra tus descubrimientos y ajusta los engranajes de tu imaginación.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Notas de hoy</span>
+                            <span id="today-notes" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Tareas completadas</span>
+                            <span id="completed-tasks" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Racha de inventos</span>
+                            <span id="streak-days" class="stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-notes">
+                    <h3 class="section-title">Últimas anotaciones</h3>
+                    <div id="recent-notes" class="notes-list">
+                        <p class="empty-message">Aún no hay notas. Tira de la palanca para comenzar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes view -->
+            <div id="notes-view" class="view">
+                <div class="view-header">
+                    <h2 class="view-title">Cuaderno de Notas</h2>
+                    <button id="new-note-btn" class="steampunk-btn primary">
+                        <span>+</span> Nueva Nota
+                    </button>
+                </div>
+                <div id="notes-container" class="notes-container">
+                    <!-- Las notas se cargarán aquí dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Tasks view -->
+            <div id="tasks-view" class="view">
+                <div class="view-header">
+                    <h2 class="view-title">Inventos Pendientes</h2>
+                    <button id="new-task-btn" class="steampunk-btn primary">
+                        <span>+</span> Nueva Tarea
+                    </button>
+                </div>
+                <div id="tasks-container" class="tasks-container">
+                    <!-- Las tareas se cargarán aquí -->
+                </div>
+            </div>
+
+            <!-- Inventory view -->
+            <div id="inventory-view" class="view">
+                <h2 class="view-title">Inventario del Taller</h2>
+                <div class="inventory-stats">
+                    <div class="inventory-item">
+                        <span class="item-name">Engranajes de cobre</span>
+                        <span id="copper-gears" class="item-count">0</span>
+                    </div>
+                    <div class="inventory-item">
+                        <span class="item-name">Tubos de latón</span>
+                        <span id="brass-tubes" class="item-count">0</span>
+                    </div>
+                    <div class="inventory-item">
+                        <span class="item-name">Remaches dorados</span>
+                        <span id="gold-rivets" class="item-count">0</span>
+                    </div>
+                </div>
+                <button id="craft-item" class="steampunk-btn secondary">Fabricar Engranaje</button>
+            </div>
+        </main>
+
+        <!-- Footer con estado offline/online -->
+        <footer class="steampunk-footer">
+            <div class="status-indicator">
+                <span id="online-status" class="status-dot online"></span>
+                <span id="status-text" class="status-text">Conectado a la red de vapor</span>
+            </div>
+            <div class="storage-info">
+                <span>📀</span>
+                <span id="storage-used">0</span>
+                <span>/</span>
+                <span>50 MB</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal para crear/editar notas -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content steampunk-modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Nueva Anotación</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="note-title" placeholder="Título de la invención" class="steampunk-input">
+                <textarea id="note-content" rows="6" placeholder="Describe tu descubrimiento..." class="steampunk-textarea"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="save-note" class="steampunk-btn primary">Guardar en Bitácora</button>
+                <button class="steampunk-btn secondary modal-close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para tareas -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content steampunk-modal">
+            <div class="modal-header">
+                <h3>Nueva Tarea de Inventor</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="task-title" placeholder="Ej: Ajustar el regulador de presión" class="steampunk-input">
+                <select id="task-priority" class="steampunk-select">
+                    <option value="high">Alta prioridad (⚠️ Urgente)</option>
+                    <option value="medium" selected>Prioridad media (⚙️ Normal)</option>
+                    <option value="low">Baja prioridad (📝 Opcional)</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button id="save-task" class="steampunk-btn primary">Agregar a la Caldera</button>
+                <button class="steampunk-btn secondary modal-close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
