@@ -308,4 +308,88 @@ function switchView(viewName) {
 
 function updateDateTime() {
     const now = new Date();
-    const dateStr = now.toLocale
+    const dateStr = now.toLocaleDateString('es-ES', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    const timeStr = now.toLocaleTimeString('es-ES');
+    
+    document.getElementById('current-date').textContent = dateStr;
+    document.getElementById('current-time').textContent = timeStr;
+}
+
+function updateOnlineStatus() {
+    const statusDot = document.getElementById('online-status');
+    const statusText = document.getElementById('status-text');
+    
+    if (navigator.onLine) {
+        statusDot.className = 'status-dot online';
+        statusText.textContent = 'Conectado a la red de vapor';
+    } else {
+        statusDot.className = 'status-dot offline';
+        statusText.textContent = 'Modo offline - Los datos se guardarán localmente';
+    }
+}
+
+// Almacenamiento
+function saveData() {
+    const dataToSave = {
+        notes: appState.notes,
+        tasks: appState.tasks,
+        inventory: appState.inventory,
+        pressure: appState.pressure
+    };
+    localStorage.setItem('steampunkDiary', JSON.stringify(dataToSave));
+    
+    // Calcular y mostrar uso de almacenamiento
+    const size = new Blob([JSON.stringify(dataToSave)]).size;
+    const sizeInMB = (size / (1024 * 1024)).toFixed(2);
+    document.getElementById('storage-used').textContent = sizeInMB;
+}
+
+function loadData() {
+    const savedData = localStorage.getItem('steampunkDiary');
+    if (savedData) {
+        const parsed = JSON.parse(savedData);
+        appState.notes = parsed.notes || [];
+        appState.tasks = parsed.tasks || [];
+        appState.inventory = parsed.inventory || { copperGears: 0, brassTubes: 0, goldRivets: 0 };
+        appState.pressure = parsed.pressure || 0;
+    } else {
+        // Datos de ejemplo para demostración
+        appState.notes = [
+            {
+                id: Date.now(),
+                title: 'Primer diseño del motor de vapor',
+                content: 'He ideado un nuevo sistema de engranajes que podría aumentar la eficiencia en un 47%. Debo probarlo mañana.',
+                date: new Date().toISOString(),
+                type: 'note'
+            }
+        ];
+        appState.tasks = [
+            {
+                id: Date.now() + 1,
+                title: 'Calibrar el regulador de presión',
+                priority: 'high',
+                completed: false,
+                date: new Date().toISOString()
+            }
+        ];
+        appState.inventory = { copperGears: 5, brassTubes: 3, goldRivets: 1 };
+    }
+    updateInventoryUI();
+    updatePressure();
+}
+
+function playSound(type) {
+    // Placeholder para sonidos (implementar con Web Audio API después)
+    console.log(`🔊 Sonido: ${type}`);
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
